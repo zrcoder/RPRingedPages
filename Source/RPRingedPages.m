@@ -19,7 +19,8 @@
     self.carousel.autoScrollInterval = 3;
     self.pageControlPosition = RPPageControlPositonBellowBody;
     self.pageControlHeight = 15;
-    self.pageControlMarginToPages = 20;
+    self.pageControlMarginTop = 5;
+    self.pageControlMarginBottom = 5;
     self.pageControl.alignment = RPPageControlAlignmentCenter;
     self.pageControl.indicatorMargin = 3;
 }
@@ -70,22 +71,23 @@
     CGRect carouselFrame;
     CGRect pageControlFrame;
     CGSize size = self.frame.size;
+    CGFloat PageControlSpaceHeight = self.pageControlMarginBottom + self.pageControlMarginTop + self.pageControlHeight;
     switch (self.pageControlPosition) {
         case RPPageControlPositonAboveBody:
-            pageControlFrame = CGRectMake(0, 0, size.width, self.pageControlHeight);
-            carouselFrame = CGRectMake(0, self.pageControlHeight + self.pageControlMarginToPages, size.width, size.height - self.pageControlMarginToPages - self.pageControlHeight);
+            pageControlFrame = CGRectMake(0, self.pageControlMarginTop, size.width, self.pageControlHeight);
+            carouselFrame = CGRectMake(0, PageControlSpaceHeight, size.width, size.height - PageControlSpaceHeight);
             break;
         case RPPageControlPositonInBodyTop:
-            pageControlFrame = CGRectMake(0, self.pageControlMarginToPages, size.width, self.pageControlHeight);
+            pageControlFrame = CGRectMake(0, self.self.pageControlMarginTop, size.width, self.pageControlHeight);
             carouselFrame = CGRectMake(0, 0, size.width, size.height);
             break;
         case RPPageControlPositonInBodyBottom:
-            pageControlFrame = CGRectMake(0, size.height - self.pageControlMarginToPages - self.pageControlHeight, size.width, self.pageControlHeight);
+            pageControlFrame = CGRectMake(0, size.height - self.pageControlMarginBottom - self.pageControlHeight, size.width, self.pageControlHeight);
             carouselFrame = CGRectMake(0, 0, size.width, size.height);
             break;
         default:
-            pageControlFrame = CGRectMake(0, size.height - self.pageControlHeight, size.width, self.pageControlHeight);
-            carouselFrame = CGRectMake(0, 0, size.width, size.height - self.pageControlHeight - self.pageControlMarginToPages);
+            pageControlFrame = CGRectMake(0, size.height - self.pageControlHeight - self.pageControlMarginBottom, size.width, self.pageControlHeight);
+            carouselFrame = CGRectMake(0, 0, size.width, size.height - PageControlSpaceHeight);
             break;
     }
     self.carousel.frame = carouselFrame;

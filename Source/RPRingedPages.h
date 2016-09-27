@@ -25,7 +25,8 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @property (nonatomic, strong) RPPageControl *pageControl;
 @property (nonatomic, assign) BOOL showPageControl;
 @property (nonatomic, assign) RPPageControlPositon pageControlPosition;
-@property (nonatomic, assign) CGFloat pageControlMarginToPages;
+@property (nonatomic, assign) CGFloat pageControlMarginTop;
+@property (nonatomic, assign) CGFloat pageControlMarginBottom;
 @property (nonatomic, assign) CGFloat pageControlHeight;
 /// carousel - main view
 @property (nonatomic, strong) RPPagedFlowView *carousel;

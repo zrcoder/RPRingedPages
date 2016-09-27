@@ -23,6 +23,7 @@
         CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
         CGRect pagesFrame = CGRectMake(0, 100, screenWidth, screenWidth * 0.4);
         RPRingedPages *pages = [[RPRingedPages alloc] initWithFrame:pagesFrame];
+        pages.pageControlMarginTop = 25;
         pages.carousel.mainPageSize = CGSizeMake(pagesFrame.size.height * 0.8, pagesFrame.size.height);
         pages.carousel.pageScale = 0.6;
         pages.dataSource = self;
@@ -68,6 +69,9 @@
     label.layer.backgroundColor = [UIColor blackColor].CGColor;
     label.layer.cornerRadius = 5;
     return label;
+}
+- (void)didSelectCurrentPageInPages:(RPRingedPages *)pages {
+    NSLog(@"pages selected, the current index is %zd", pages.currentPageIndex);
 }
 
 - (IBAction)changeMainPageSize:(UISegmentedControl *)sender {
