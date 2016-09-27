@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lRd-gs-y6u">
+                                <segments>
+                                    <segment title="Origin"/>
+                                    <segment title="(60, 100)"/>
+                                    <segment title="(100, 100)"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changeMainPageSize:" destination="BYZ-38-t0r" eventType="valueChanged" id="27P-hb-98U"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="page scale" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="akv-AT-oHE">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qfp-TD-mUq">
+                                <segments>
+                                    <segment title="Origin"/>
+                                    <segment title="0.8"/>
+                                    <segment title="0.5"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changePageScale:" destination="BYZ-38-t0r" eventType="valueChanged" id="WZb-Tc-YMs"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="main page size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a8b-z2-p6e">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="lRd-gs-y6u" secondAttribute="trailing" id="K15-Ir-A3n"/>
+                            <constraint firstItem="qfp-TD-mUq" firstAttribute="top" secondItem="akv-AT-oHE" secondAttribute="bottom" constant="8" id="LKf-uS-3O9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qfp-TD-mUq" secondAttribute="trailing" id="LRg-3F-hMx"/>
+                            <constraint firstItem="lRd-gs-y6u" firstAttribute="top" secondItem="a8b-z2-p6e" secondAttribute="bottom" constant="8" id="LsN-eA-oME"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="qfp-TD-mUq" secondAttribute="leading" id="Q2c-z9-Lru"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="lRd-gs-y6u" secondAttribute="leading" id="aqC-Rx-8fZ"/>
+                            <constraint firstItem="akv-AT-oHE" firstAttribute="leading" secondItem="qfp-TD-mUq" secondAttribute="leading" id="f9C-8B-6bM"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qfp-TD-mUq" secondAttribute="bottom" constant="48" id="nuU-14-q9i"/>
+                            <constraint firstItem="a8b-z2-p6e" firstAttribute="leading" secondItem="lRd-gs-y6u" secondAttribute="leading" id="tuG-zS-gl2"/>
+                            <constraint firstItem="akv-AT-oHE" firstAttribute="top" secondItem="lRd-gs-y6u" secondAttribute="bottom" constant="8" id="vme-Ak-MzQ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="276" y="-46"/>
+        </scene>
+    </scenes>
+</document>
