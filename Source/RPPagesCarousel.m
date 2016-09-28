@@ -1,14 +1,14 @@
 //
-//  RPPagedFlowView.m
+//  RPPagesCarousel.m
 //  RPRingedPages
 //
 //  Created by admin on 16/9/20.
 //  Copyright © 2016年 Ding. All rights reserved.
 //
 
-#import "RPPagedFlowView.h"
+#import "RPPagesCarousel.h"
 
-@interface RPPagedFlowView ()
+@interface RPPagesCarousel ()
 
 @property (nonatomic, assign, readwrite) NSInteger currentPageIndex;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -24,7 +24,7 @@
 
 @end
 
-@implementation RPPagedFlowView
+@implementation RPPagesCarousel
 
 #pragma mark - Override Methods
 
@@ -81,7 +81,7 @@
 }
 
 #pragma mark -
-#pragma mark RPPagedFlowView API
+#pragma mark RPPagesCarousel API
 
 - (void)reloadData {
     _needsReload = YES;

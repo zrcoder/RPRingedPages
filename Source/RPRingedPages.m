@@ -8,7 +8,7 @@
 
 #import "RPRingedPages.h"
 
-@interface RPRingedPages () <RPPagedFlowViewDelegate, RPPagedFlowViewDataSource>
+@interface RPRingedPages () <RPPagesCarouselDelegate, RPPagesCarouselDataSource>
 
 @end
 
@@ -114,33 +114,33 @@
     [self.carousel scrollToPage:index];
 }
 
-- (NSInteger)numberOfPagesInFlowView:(RPPagedFlowView *)flowView {
+- (NSInteger)numberOfPagesInFlowView:(RPPagesCarousel *)flowView {
     if ([self.dataSource respondsToSelector:@selector(numberOfItemsInRingedPages:)]) {
         return [self.dataSource numberOfItemsInRingedPages:self];
     }
     return 0;
 }
-- (UIView *)flowView:(RPPagedFlowView *)flowView pageForItemAtIndex:(NSInteger)index {
+- (UIView *)flowView:(RPPagesCarousel *)flowView pageForItemAtIndex:(NSInteger)index {
     if ([self.dataSource respondsToSelector:@selector(ringedPages:viewForItemAtIndex:)]) {
         return [self.dataSource ringedPages:self viewForItemAtIndex:index];
     }
     return nil;
 }
-- (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(RPPagedFlowView *)flowView {
+- (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(RPPagesCarousel *)flowView {
     if(self.pageControl.currentPage != pageNumber) {
         self.pageControl.currentPage = pageNumber;
     }    
 }
-- (void)didSelectCurrentPageInFlowView:(RPPagedFlowView *)flowView {
+- (void)didSelectCurrentPageInFlowView:(RPPagesCarousel *)flowView {
     if ([self.delegate respondsToSelector:@selector(didSelectCurrentPageInPages:)]) {
         [self.delegate didSelectCurrentPageInPages:self];
     }
 }
 
 #pragma mark - getters and setters
-- (RPPagedFlowView *)carousel {
+- (RPPagesCarousel *)carousel {
     if (_carousel == nil) {
-        _carousel = [RPPagedFlowView new];
+        _carousel = [RPPagesCarousel new];
         _carousel.dataSource = self;
         _carousel.delegate = self;
     }

@@ -12,14 +12,8 @@ static const CGFloat defaultIndicatorWidth = 6.0f;
 static const CGFloat defaultIndicatorMargin = 10.0f;
 static const CGFloat defaultMinHeight = 36.0f;
 
-typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
-    RPPageControlImageTypeNormal = 1,
-    RPPageControlImageTypeCurrent
-};
-
 @interface RPPageControl ()
-@property (strong, readwrite, nonatomic) NSArray *pageRects;
-@property (nonatomic, strong) UIPageControl *accessibilityPageControl;
+@property (nonatomic, strong) UIPageControl *systemPageControl;
 @end
 
 @implementation RPPageControl {
@@ -29,7 +23,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     CGFloat				_measuredIndicatorHeight;
 }
 
-- (void)_initialize {
+- (void)p_initialize {
     _numberOfPages = 0;
     self.backgroundColor = [UIColor clearColor];
 
@@ -44,10 +38,10 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     
     self.isAccessibilityElement = YES;
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
-    self.accessibilityPageControl = [[UIPageControl alloc] init];
-    self.accessibilityPageControl.pageIndicatorTintColor = self.indicatorTintColor;
-    self.accessibilityPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
-    self.accessibilityPageControl.userInteractionEnabled = NO;
+    self.systemPageControl = [[UIPageControl alloc] init];
+    self.systemPageControl.pageIndicatorTintColor = self.indicatorTintColor;
+    self.systemPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
+    self.systemPageControl.userInteractionEnabled = NO;
     self.contentMode = UIViewContentModeRedraw;
 }
 
@@ -56,7 +50,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     if (nil == self) {
         return nil;
     }
-    [self _initialize];
+    [self p_initialize];
     return self;
 }
 
@@ -65,19 +59,18 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     if (nil == self) {
         return nil;
     }
-    [self _initialize];
+    [self p_initialize];
     return self;
 }
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    [self _renderPages:context rect:rect];
+    [self p_renderPages:context rect:rect];
 }
 
-- (void)_renderPages:(CGContextRef)context rect:(CGRect)rect {
-    NSMutableArray *pageRects = [NSMutableArray arrayWithCapacity:self.numberOfPages];
+- (void)p_renderPages:(CGContextRef)context rect:(CGRect)rect {
     
-    CGFloat left = [self _leftOffset];
+    CGFloat left = [self p_leftOffset];
     
     CGFloat xOffset = left;
     CGFloat yOffset = 0.0f;
@@ -92,22 +85,18 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
         }
         CGRect indicatorRect;
         if (image) {
-            yOffset = [self _topOffsetForHeight:image.size.height rect:rect];
-            CGFloat centeredXOffset = xOffset + floorf((_measuredIndicatorWidth - image.size.width) / 2.0f);
+            yOffset = [self p_topOffsetForHeight:image.size.height rect:rect];
+            CGFloat centeredXOffset = xOffset + floorf((_measuredIndicatorWidth - image.size.width) * 0.5);
             [image drawAtPoint:CGPointMake(centeredXOffset, yOffset)];
             indicatorRect = CGRectMake(centeredXOffset, yOffset, image.size.width, image.size.height);
         } else {
-            yOffset = [self _topOffsetForHeight:_indicatorDiameter rect:rect];
-            CGFloat centeredXOffset = xOffset + floorf((_measuredIndicatorWidth - _indicatorDiameter) / 2.0f);
+            yOffset = [self p_topOffsetForHeight:_indicatorDiameter rect:rect];
+            CGFloat centeredXOffset = xOffset + floorf((_measuredIndicatorWidth - _indicatorDiameter) * 0.5);
             indicatorRect = CGRectMake(centeredXOffset, yOffset, _indicatorDiameter, _indicatorDiameter);
             CGContextFillEllipseInRect(context, indicatorRect);
         }
-        
-        [pageRects addObject:[NSValue valueWithCGRect:indicatorRect]];
         xOffset += _measuredIndicatorWidth + _indicatorMargin;
     }
-    
-    self.pageRects = pageRects;
     [self layoutIfNeeded];
     
 }
@@ -115,22 +104,22 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (!_currentPageIndicatorImage && !_pageIndicatorImage) {
-        self.accessibilityPageControl.frame = self.bounds ;
-        [self addSubview:self.accessibilityPageControl];
-        self.accessibilityPageControl.pageIndicatorTintColor = self.indicatorTintColor;
-        self.accessibilityPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
+        self.systemPageControl.frame = self.bounds ;
+        [self addSubview:self.systemPageControl];
+        self.systemPageControl.pageIndicatorTintColor = self.indicatorTintColor;
+        self.systemPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
     } else {
-        [self.accessibilityPageControl removeFromSuperview];
+        [self.systemPageControl removeFromSuperview];
     }
 }
 
-- (CGFloat)_leftOffset {
+- (CGFloat)p_leftOffset {
     CGRect rect = self.bounds;
     CGSize size = [self sizeForNumberOfPages:self.numberOfPages];
     CGFloat left = 0.0f;
     switch (_alignment) {
         case RPPageControlAlignmentCenter:
-            left = ceilf(CGRectGetMidX(rect) - (size.width / 2.0f));
+            left = ceilf(CGRectGetMidX(rect) - (size.width * 0.5));
             break;
         case RPPageControlAlignmentRight:
             left = CGRectGetMaxX(rect) - size.width;
@@ -142,11 +131,11 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     return left;
 }
 
-- (CGFloat)_topOffsetForHeight:(CGFloat)height rect:(CGRect)rect {
+- (CGFloat)p_topOffsetForHeight:(CGFloat)height rect:(CGRect)rect {
     CGFloat top = 0.0f;
     switch (_verticalAlignment) {
         case RPPageControlVerticalAlignmentMiddle:
-            top = CGRectGetMidY(rect) - (height / 2.0f);
+            top = CGRectGetMidY(rect) - (height * 0.5);
             break;
         case RPPageControlVerticalAlignmentBottom:
             top = CGRectGetMaxY(rect) - height;
@@ -157,27 +146,11 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     return top;
 }
 
-- (void)updateCurrentPageDisplay {
-    _displayedPage = _currentPage;
-    [self setNeedsDisplay];
-}
-
 - (CGSize)sizeForNumberOfPages:(NSInteger)pageCount {
     CGFloat marginSpace = MAX(0, pageCount - 1) * _indicatorMargin;
     CGFloat indicatorSpace = pageCount * _measuredIndicatorWidth;
     CGSize size = CGSizeMake(marginSpace + indicatorSpace, _measuredIndicatorHeight);
     return size;
-}
-
-- (CGRect)rectForPageIndicator:(NSInteger)pageIndex {
-    if (pageIndex < 0 || pageIndex >= _numberOfPages) {
-        return CGRectZero;
-    }
-    
-    CGFloat left = [self _leftOffset];
-    CGSize size = [self sizeForNumberOfPages:pageIndex + 1];
-    CGRect rect = CGRectMake(left + size.width - _measuredIndicatorWidth, 0, _measuredIndicatorWidth, _measuredIndicatorWidth);
-    return rect;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -186,33 +159,14 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     return sizeThatFits;
 }
 
-- (CGSize)intrinsicContentSize {
-    if (_numberOfPages < 1) {
-        return CGSizeMake(UIViewNoIntrinsicMetric, 0.0f);
-    }
-    CGSize intrinsicContentSize = CGSizeMake(UIViewNoIntrinsicMetric, MAX(_measuredIndicatorHeight, _minHeight));
-    return intrinsicContentSize;
-}
-
-- (void)updatePageNumberForScrollView:(UIScrollView *)scrollView {
-    NSInteger page = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
-    self.currentPage = page;
-}
-
-- (void)setScrollViewContentOffsetForCurrentPage:(UIScrollView *)scrollView animated:(BOOL)animated {
-    CGPoint offset = scrollView.contentOffset;
-    offset.x = scrollView.bounds.size.width * self.currentPage;
-    [scrollView setContentOffset:offset animated:animated];
-}
-
 #pragma mark -
 
-- (void)_updateMeasuredIndicatorSizeWithSize:(CGSize)size {
+- (void)p_updateMeasuredIndicatorSizeWithSize:(CGSize)size {
     _measuredIndicatorWidth = MAX(_measuredIndicatorWidth, size.width);
     _measuredIndicatorHeight = MAX(_measuredIndicatorHeight, size.height);
 }
 
-- (void)_updateMeasuredIndicatorSizes {
+- (void)p_updateMeasuredIndicatorSizes {
     _measuredIndicatorWidth = _indicatorDiameter;
     _measuredIndicatorHeight = _indicatorDiameter;
     
@@ -222,11 +176,11 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     }
     
     if (self.pageIndicatorImage) {
-        [self _updateMeasuredIndicatorSizeWithSize:self.pageIndicatorImage.size];
+        [self p_updateMeasuredIndicatorSizeWithSize:self.pageIndicatorImage.size];
     }
     
     if (self.currentPageIndicatorImage) {
-        [self _updateMeasuredIndicatorSizeWithSize:self.currentPageIndicatorImage.size];
+        [self p_updateMeasuredIndicatorSizeWithSize:self.currentPageIndicatorImage.size];
     }
     
     if ([self respondsToSelector:@selector(invalidateIntrinsicContentSize)]) {
@@ -241,8 +195,8 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     CGPoint point = [touch locationInView:self];
     
     CGSize size = [self sizeForNumberOfPages:self.numberOfPages];
-    CGFloat left = [self _leftOffset];
-    CGFloat middle = left + (size.width / 2.0f);
+    CGFloat left = [self p_leftOffset];
+    CGFloat middle = left + (size.width * 0.5);
     if (point.x < middle) {
         [self setCurrentPage:self.currentPage - 1 sendEvent:YES canDefer:YES];
     } else {
@@ -265,7 +219,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     if (_minHeight < indicatorDiameter) {
         self.minHeight = indicatorDiameter;
     }
-    [self _updateMeasuredIndicatorSizes];
+    [self p_updateMeasuredIndicatorSizes];
     [self setNeedsDisplay];
 }
 
@@ -295,9 +249,9 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     if (numberOfPages == _numberOfPages) {
         return;
     }
-    self.accessibilityPageControl.numberOfPages = numberOfPages;
+    self.systemPageControl.numberOfPages = numberOfPages;
     if (numberOfPages > 0) {
-        self.accessibilityPageControl.currentPage = 0;
+        self.systemPageControl.currentPage = 0;
     }
     _numberOfPages = MAX(0, numberOfPages);
     if ([self respondsToSelector:@selector(invalidateIntrinsicContentSize)]) {
@@ -313,7 +267,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
 
 - (void)setCurrentPage:(NSInteger)currentPage sendEvent:(BOOL)sendEvent canDefer:(BOOL)defer {
     _currentPage = MIN(MAX(0, currentPage), _numberOfPages - 1);
-    self.accessibilityPageControl.currentPage = self.currentPage;
+    self.systemPageControl.currentPage = self.currentPage;
     [self updateAccessibilityValue];
     if (!defer) {
         _displayedPage = _currentPage;
@@ -329,7 +283,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
         return;
     }
     _currentPageIndicatorImage = currentPageIndicatorImage;
-    [self _updateMeasuredIndicatorSizes];
+    [self p_updateMeasuredIndicatorSizes];
     [self setNeedsDisplay];
 }
 
@@ -338,14 +292,14 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
         return;
     }
     _pageIndicatorImage = pageIndicatorImage;
-    [self _updateMeasuredIndicatorSizes];
+    [self p_updateMeasuredIndicatorSizes];
     [self setNeedsDisplay];
 }
 
 
 #pragma mark - UIAccessibility
 - (void)updateAccessibilityValue {
-    NSString *accessibilityValue = self.accessibilityPageControl.accessibilityValue;
+    NSString *accessibilityValue = self.systemPageControl.accessibilityValue;
     self.accessibilityValue = accessibilityValue;
 }
 

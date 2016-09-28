@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RPPageControl.h"
-#import "RPPagedFlowView.h"
+#import "RPPagesCarousel.h"
 
 typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
     RPPageControlPositonBellowBody,
@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @property (nonatomic, assign) CGFloat pageControlMarginBottom;
 @property (nonatomic, assign) CGFloat pageControlHeight;
 /// carousel - main view
-@property (nonatomic, strong) RPPagedFlowView *carousel;
+@property (nonatomic, strong) RPPagesCarousel *carousel;
 
 /// Data source and delegate
 @property (nonatomic, weak) id<RPRingedPagesDataSource> dataSource;

@@ -6,6 +6,11 @@
 //  Copyright © 2016年 Ding. All rights reserved.
 //
 
+/**
+ Thanks for SMPageControl (https://github.com/Spaceman-Labs/SMPageControl)
+ In fact, this one is a lite of the linked one.
+ */
+
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, RPPageControlAlignment) {

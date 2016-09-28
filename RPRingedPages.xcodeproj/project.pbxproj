@@ -14,7 +14,7 @@
 		84308A061D99FF5800C3ADAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84308A051D99FF5800C3ADAB /* Assets.xcassets */; };
 		84308A091D99FF5800C3ADAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84308A071D99FF5800C3ADAB /* LaunchScreen.storyboard */; };
 		84308A171D99FFBE00C3ADAB /* RPPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 84308A121D99FFBE00C3ADAB /* RPPageControl.m */; };
-		84308A181D99FFBE00C3ADAB /* RPPagedFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84308A141D99FFBE00C3ADAB /* RPPagedFlowView.m */; };
+		84308A181D99FFBE00C3ADAB /* RPPagesCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84308A141D99FFBE00C3ADAB /* RPPagesCarousel.m */; };
 		84308A191D99FFBE00C3ADAB /* RPRingedPages.m in Sources */ = {isa = PBXBuildFile; fileRef = 84308A161D99FFBE00C3ADAB /* RPRingedPages.m */; };
 /* End PBXBuildFile section */
 
@@ -31,8 +31,8 @@
 		84308A0A1D99FF5800C3ADAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84308A111D99FFBE00C3ADAB /* RPPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPPageControl.h; sourceTree = "<group>"; };
 		84308A121D99FFBE00C3ADAB /* RPPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPPageControl.m; sourceTree = "<group>"; };
-		84308A131D99FFBE00C3ADAB /* RPPagedFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPPagedFlowView.h; sourceTree = "<group>"; };
-		84308A141D99FFBE00C3ADAB /* RPPagedFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPPagedFlowView.m; sourceTree = "<group>"; };
+		84308A131D99FFBE00C3ADAB /* RPPagesCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPPagesCarousel.h; sourceTree = "<group>"; };
+		84308A141D99FFBE00C3ADAB /* RPPagesCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPPagesCarousel.m; sourceTree = "<group>"; };
 		84308A151D99FFBE00C3ADAB /* RPRingedPages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPRingedPages.h; sourceTree = "<group>"; };
 		84308A161D99FFBE00C3ADAB /* RPRingedPages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPRingedPages.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,8 +96,8 @@
 				84308A161D99FFBE00C3ADAB /* RPRingedPages.m */,
 				84308A111D99FFBE00C3ADAB /* RPPageControl.h */,
 				84308A121D99FFBE00C3ADAB /* RPPageControl.m */,
-				84308A131D99FFBE00C3ADAB /* RPPagedFlowView.h */,
-				84308A141D99FFBE00C3ADAB /* RPPagedFlowView.m */,
+				84308A131D99FFBE00C3ADAB /* RPPagesCarousel.h */,
+				84308A141D99FFBE00C3ADAB /* RPPagesCarousel.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -173,7 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84308A181D99FFBE00C3ADAB /* RPPagedFlowView.m in Sources */,
+				84308A181D99FFBE00C3ADAB /* RPPagesCarousel.m in Sources */,
 				84308A011D99FF5800C3ADAB /* ViewController.m in Sources */,
 				843089FE1D99FF5800C3ADAB /* AppDelegate.m in Sources */,
 				84308A171D99FFBE00C3ADAB /* RPPageControl.m in Sources */,
