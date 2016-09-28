@@ -15,7 +15,7 @@
 
 @property (nonatomic,assign) CGSize mainPageSize;
 @property (nonatomic, assign) CGFloat pageScale;
-@property (nonatomic, assign) NSTimeInterval autoScrollInterval; //if == 0, will not scroll autoly.
+@property (nonatomic, assign) NSTimeInterval autoScrollInterval; //if <= 0, will not scroll automatically.
 
 @property (nonatomic,assign)   id <RPPagesCarouselDataSource> dataSource;
 @property (nonatomic,assign)   id <RPPagesCarouselDelegate>   delegate;
