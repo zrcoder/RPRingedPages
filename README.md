@@ -60,13 +60,16 @@ If in a UIViewController
     return self.dataSource.count;
 }
 - (UIView *)ringedPages:(RPRingedPages *)pages viewForItemAtIndex:(NSInteger)index {
-    UILabel *label = [UILabel new];
-    label.font = [UIFont systemFontOfSize:50];
+    UILabel *label = (UILabel *)[pages dequeueReusablePage];
+    if (![label isKindOfClass:[UILabel class]]) {
+        label = [UILabel new];
+        label.font = [UIFont systemFontOfSize:50];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor whiteColor];
+        label.layer.backgroundColor = [UIColor blackColor].CGColor;
+        label.layer.cornerRadius = 5;
+    }
     label.text = self.dataSource[index];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
-    label.layer.backgroundColor = [UIColor blackColor].CGColor;
-    label.layer.cornerRadius = 5;
     return label;
 }
 
