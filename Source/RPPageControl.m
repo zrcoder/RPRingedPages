@@ -39,12 +39,14 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     
     _alignment = RPPageControlAlignmentCenter;
     _verticalAlignment = RPPageControlVerticalAlignmentMiddle;
+    _indicatorTintColor = [UIColor lightGrayColor];
+    _currentIndicatorTintColor = [UIColor blueColor];
     
     self.isAccessibilityElement = YES;
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     self.accessibilityPageControl = [[UIPageControl alloc] init];
-    self.accessibilityPageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    self.accessibilityPageControl.currentPageIndicatorTintColor = [UIColor blueColor];
+    self.accessibilityPageControl.pageIndicatorTintColor = self.indicatorTintColor;
+    self.accessibilityPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
     self.accessibilityPageControl.userInteractionEnabled = NO;
     self.contentMode = UIViewContentModeRedraw;
 }
@@ -115,6 +117,8 @@ typedef NS_ENUM(NSUInteger, RPPageControlImageType) {
     if (!_currentPageIndicatorImage && !_pageIndicatorImage) {
         self.accessibilityPageControl.frame = self.bounds ;
         [self addSubview:self.accessibilityPageControl];
+        self.accessibilityPageControl.pageIndicatorTintColor = self.indicatorTintColor;
+        self.accessibilityPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
     } else {
         [self.accessibilityPageControl removeFromSuperview];
     }

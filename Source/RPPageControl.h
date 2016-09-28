@@ -32,5 +32,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlVerticalAlignment) {
 
 @property (nonatomic, strong) UIImage *pageIndicatorImage;
 @property (nonatomic, strong) UIImage *currentPageIndicatorImage;
+@property (nonatomic, copy) UIColor *indicatorTintColor;                    // will be ignored if pageIndicatorImage setted
+@property (nonatomic, copy) UIColor *currentIndicatorTintColor;             // will be ignored if currentPageIndicatorImage setted
 
 @end 
