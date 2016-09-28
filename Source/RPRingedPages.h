@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 /// Main API
 @property (nonatomic, assign) NSInteger currentIndex;
 - (void)reloadData;
+- (UIView *)dequeueReusablePage;
 
 @end
 

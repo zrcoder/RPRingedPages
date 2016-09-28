@@ -51,20 +51,20 @@
         self.orginPageCount = 0;
         if (_dataSource && [_dataSource respondsToSelector:@selector(numberOfPagesInCarousel:)]) {
             self.orginPageCount = [_dataSource numberOfPagesInCarousel:self];
-            _pageCount = self.orginPageCount == 1 ? 1: [_dataSource numberOfPagesInCarousel:self] * 3;
+            _pageCount = self.orginPageCount == 1 ? 1: self.orginPageCount * 3;
         }
         
         [_reusablePages removeAllObjects];
+        [_pages removeAllObjects];
         _visibleRange = NSMakeRange(0, 0);
         
-        [_pages removeAllObjects];
         for (NSInteger index=0; index<_pageCount; index++) {
             [_pages addObject:[NSNull null]];
         }
         _scrollView.frame = CGRectMake(0, 0, _mainPageSize.width, _mainPageSize.height);
         _scrollView.contentSize = CGSizeMake(_mainPageSize.width * _pageCount,_mainPageSize.height);
-        CGPoint theCenter = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-        _scrollView.center = theCenter;
+        CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+        _scrollView.center = center;
         
         if (self.orginPageCount > 1) {
             [_scrollView setContentOffset:CGPointMake(_mainPageSize.width * self.orginPageCount, 0) animated:NO];
@@ -127,11 +127,10 @@
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     
-    UIView *superViewOfScrollView = [[UIView alloc] initWithFrame:self.bounds];
-    [superViewOfScrollView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    [superViewOfScrollView setBackgroundColor:[UIColor clearColor]];
-    [superViewOfScrollView addSubview:self.scrollView];
-    [self addSubview:superViewOfScrollView];
+    UIView *containner = [[UIView alloc] initWithFrame:self.bounds];
+    containner.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [containner addSubview:self.scrollView];
+    [self addSubview:containner];
     [self addGestureRecognizer:self.tapGestureRecognizer];
 }
 - (void)p_addTimer {
@@ -151,6 +150,14 @@
 
 - (void)p_queueReusablePage:(UIView *)page {
     [_reusablePages addObject:page];
+}
+
+- (UIView *)dequeueReusablePage {
+    UIView *page = [_reusablePages lastObject];
+    if (page) {
+        [_reusablePages removeLastObject];
+    }
+    return page;
 }
 
 - (void)p_removePageAtIndex:(NSInteger)index{
@@ -193,17 +200,17 @@
     }
 }
 
-- (void)p_setPageAtIndex:(NSInteger)pageIndex{
-    NSParameterAssert(pageIndex >= 0 && pageIndex < [_pages count]);
+- (void)p_setPageAtIndex:(NSInteger)index{
+    NSParameterAssert(index >= 0 && index < _pages.count);
     
-    UIView *page = [_pages objectAtIndex:pageIndex];
+    UIView *page = [_pages objectAtIndex:index];
     
     if ((NSObject *)page == [NSNull null]) {
-        page = [_dataSource carousel:self pageForItemAtIndex:pageIndex % self.orginPageCount];
+        page = [_dataSource carousel:self pageForItemAtIndex:index % self.orginPageCount];
         NSAssert(page!=nil, @"datasource must not return nil");
-        [_pages replaceObjectAtIndex:pageIndex withObject:page];
+        [_pages replaceObjectAtIndex:index withObject:page];
         
-        page.frame = CGRectMake(_mainPageSize.width * pageIndex, 0, _mainPageSize.width, _mainPageSize.height);
+        page.frame = CGRectMake(_mainPageSize.width * index, 0, _mainPageSize.width, _mainPageSize.height);
         
         if (!page.superview) {
             [_scrollView addSubview:page];
@@ -218,7 +225,7 @@
     
     
     NSInteger startIndex = 0;
-    for (int i =0; i < [_pages count]; i++) {
+    for (int i =0; i < _pages.count; i++) {
         if (_mainPageSize.width * (i +1) > startPoint.x) {
             startIndex = i;
             break;
@@ -226,17 +233,18 @@
     }
     
     NSInteger endIndex = startIndex;
-    for (NSInteger i = startIndex; i < [_pages count]; i++) {
+    for (NSInteger i = startIndex; i < _pages.count; i++) {
         
-        if ((_mainPageSize.width * (i + 1) < endPoint.x && _mainPageSize.width * (i + 2) >= endPoint.x) || i+ 2 == [_pages count]) {
+        if ((_mainPageSize.width * (i + 1) < endPoint.x && _mainPageSize.width * (i + 2) >= endPoint.x) || i+ 2 == _pages.count) {
             endIndex = i + 1;
             break;
         }
     }
     
     startIndex = MAX(startIndex - 1, 0);
-    endIndex = MIN(endIndex + 1, [_pages count] - 1);
+    endIndex = MIN(endIndex + 1, _pages.count - 1);
     self.visibleRange = NSMakeRange(startIndex, endIndex - startIndex + 1);
+    
     for (NSInteger i = startIndex; i <= endIndex; i++) {
         [self p_setPageAtIndex:i];
     }
@@ -245,17 +253,11 @@
         [self p_removePageAtIndex:i];
     }
     
-    for (NSInteger i = endIndex + 1; i < [_pages count]; i ++) {
+    for (NSInteger i = endIndex + 1; i < _pages.count; i ++) {
         [self p_removePageAtIndex:i];
     }
 }
-- (UIView *)p_dequeueReusablePage{
-    UIView *page = [_reusablePages lastObject];
-    if (page) {
-        [_reusablePages removeLastObject];
-    }
-    return page;
-}
+
 - (void)p_pagesTappedAction:(UIGestureRecognizer *)gesture {
     if ([self.delegate respondsToSelector:@selector(didSelectCurrentPageInCarousel:)]) {
         [self.delegate didSelectCurrentPageInCarousel:self];

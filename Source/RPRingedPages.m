@@ -161,6 +161,9 @@
     [self.carousel scrollToIndex:page];
 }
 
+- (UIView *)dequeueReusablePage {
+    return [self.carousel dequeueReusablePage];
+}
 
 
 @end

@@ -23,6 +23,7 @@
 @property (nonatomic, assign, readonly) NSInteger currentIndex;
 - (void)reloadData;
 - (void)scrollToIndex:(NSUInteger)pageIndex;
+- (UIView *)dequeueReusablePage;
 
 @end
 
