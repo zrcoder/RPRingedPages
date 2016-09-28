@@ -271,16 +271,16 @@
     if (self.orginPageCount == 0) {
         return;
     }
-    
-    NSInteger pageIndex = (NSInteger)floor(_scrollView.contentOffset.x / _mainPageSize.width) % self.orginPageCount;
+    CGFloat number = _scrollView.contentOffset.x / _mainPageSize.width;
+    NSInteger pageIndex = (NSInteger)floor(number) % self.orginPageCount;
     
     if (self.orginPageCount > 1) {
-        if (scrollView.contentOffset.x / _mainPageSize.width >= 2 * self.orginPageCount) {
+        if (number >= 2 * self.orginPageCount) {
             [scrollView setContentOffset:CGPointMake(_mainPageSize.width * self.orginPageCount, 0) animated:NO];
             self.indexForTimer = self.orginPageCount;
         }
         
-        if (scrollView.contentOffset.x / _mainPageSize.width <= self.orginPageCount - 1) {
+        if (number <= self.orginPageCount - 1) {
             [scrollView setContentOffset:CGPointMake((2 * self.orginPageCount - 1) * _mainPageSize.width, 0) animated:NO];
             self.indexForTimer = 2 * self.orginPageCount;
         }
@@ -298,17 +298,18 @@
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [self.timer invalidate];
+    [self p_removeTimer];
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     
     if (self.orginPageCount > 1 && self.autoScrollInterval > 0) {
         [self p_addTimer];
-        if (self.indexForTimer == floor(_scrollView.contentOffset.x / _mainPageSize.width)) {
-            self.indexForTimer = floor(_scrollView.contentOffset.x / _mainPageSize.width) + 1;
+        NSInteger num = floor(_scrollView.contentOffset.x / _mainPageSize.width);
+        if (self.indexForTimer == num) {
+            self.indexForTimer = num + 1;
         } else {
-            self.indexForTimer = floor(_scrollView.contentOffset.x / _mainPageSize.width);
+            self.indexForTimer = num;
         }
     }
 }
