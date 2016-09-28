@@ -25,6 +25,7 @@ If in a UIViewController
         CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
         CGRect pagesFrame = CGRectMake(0, 100, screenWidth, screenWidth * 0.4);
         RPRingedPages *pages = [[RPRingedPages alloc] initWithFrame:pagesFrame];
+        pages.pageControlMarginTop = 25;
         pages.carousel.mainPageSize = CGSizeMake(pagesFrame.size.height * 0.8, pagesFrame.size.height);
         pages.carousel.pageScale = 0.6;
         pages.dataSource = self;
