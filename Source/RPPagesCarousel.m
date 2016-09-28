@@ -8,7 +8,7 @@
 
 #import "RPPagesCarousel.h"
 
-@interface RPPagesCarousel ()
+@interface RPPagesCarousel ()<UIScrollViewDelegate>
 
 @property (nonatomic, assign, readwrite) NSInteger currentPageIndex;
 @property (nonatomic, strong) UIScrollView *scrollView;

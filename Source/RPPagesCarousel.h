@@ -11,7 +11,7 @@
 @protocol RPPagesCarouselDataSource;
 @protocol RPPagesCarouselDelegate;
 
-@interface RPPagesCarousel : UIView<UIScrollViewDelegate>
+@interface RPPagesCarousel : UIView
 
 @property (nonatomic,assign) CGSize mainPageSize;
 @property (nonatomic, assign) CGFloat pageScale;
