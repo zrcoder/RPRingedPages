@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlVerticalAlignment) {
 @interface RPPageControl : UIControl
 
 @property (nonatomic) NSInteger numberOfPages;
-@property (nonatomic) NSInteger currentPage;
+@property (nonatomic) NSInteger currentIndex;
 @property (nonatomic) CGFloat indicatorMargin;
 @property (nonatomic) CGFloat indicatorDiameter;
 @property (nonatomic) CGFloat minHeight;                                    // default is 36, cannot be less than indicatorDiameter

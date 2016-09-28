@@ -198,9 +198,9 @@ static const CGFloat defaultMinHeight = 36.0f;
     CGFloat left = [self p_leftOffset];
     CGFloat middle = left + (size.width * 0.5);
     if (point.x < middle) {
-        [self setCurrentPage:self.currentPage - 1 sendEvent:YES canDefer:YES];
+        [self setCurrentIndex:self.currentIndex - 1 sendEvent:YES canDefer:YES];
     } else {
-        [self setCurrentPage:self.currentPage + 1 sendEvent:YES canDefer:YES];
+        [self setCurrentIndex:self.currentIndex + 1 sendEvent:YES canDefer:YES];
     }
     
 }
@@ -261,16 +261,16 @@ static const CGFloat defaultMinHeight = 36.0f;
     [self setNeedsDisplay];
 }
 
-- (void)setCurrentPage:(NSInteger)currentPage {
-    [self setCurrentPage:currentPage sendEvent:NO canDefer:NO];
+- (void)setCurrentIndex:(NSInteger)currentIndex {
+    [self setCurrentIndex:currentIndex sendEvent:NO canDefer:NO];
 }
 
-- (void)setCurrentPage:(NSInteger)currentPage sendEvent:(BOOL)sendEvent canDefer:(BOOL)defer {
-    _currentPage = MIN(MAX(0, currentPage), _numberOfPages - 1);
-    self.systemPageControl.currentPage = self.currentPage;
+- (void)setCurrentIndex:(NSInteger)currentIndex sendEvent:(BOOL)sendEvent canDefer:(BOOL)defer {
+    _currentIndex = MIN(MAX(0, currentIndex), _numberOfPages - 1);
+    self.systemPageControl.currentPage = self.currentIndex;
     [self updateAccessibilityValue];
     if (!defer) {
-        _displayedPage = _currentPage;
+        _displayedPage = _currentIndex;
         [self setNeedsDisplay];
     }
     if (sendEvent) {

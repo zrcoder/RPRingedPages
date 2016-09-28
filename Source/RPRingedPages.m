@@ -43,13 +43,13 @@
     [self.carousel reloadData];
 }
 - (void)scrollToPageIndex:(NSUInteger)index {
-    [self.carousel scrollToPage:index];
+    [self.carousel scrollToIndex:index];
 }
-- (NSInteger)currentPageIndex {
-    return self.carousel.currentPageIndex;
+- (NSInteger)currentIndex {
+    return self.carousel.currentIndex;
 }
-- (void)setCurrentPageIndex:(NSInteger)currentPageIndex {
-    [self scrollToPageIndex:currentPageIndex];
+- (void)setCurrentIndex:(NSInteger)index {
+    [self scrollToPageIndex:index];
 }
 
 - (void)p_layoutPageControlAndCarousel {
@@ -102,36 +102,36 @@
     if ([self.dataSource respondsToSelector:@selector(numberOfItemsInRingedPages:)]) {
         NSInteger number = [self.dataSource numberOfItemsInRingedPages:self];
         self.pageControl.numberOfPages = number;
-        self.pageControl.currentPage = 0;
+        self.pageControl.currentIndex = 0;
     }
 }
 
 - (void)p_scrollToNext {
-    NSInteger index = self.carousel.currentPageIndex + 1;
+    NSInteger index = self.carousel.currentIndex + 1;
     if (index == [self.dataSource numberOfItemsInRingedPages:self] ) {
         index = 0;
     }
-    [self.carousel scrollToPage:index];
+    [self.carousel scrollToIndex:index];
 }
 
-- (NSInteger)numberOfPagesInFlowView:(RPPagesCarousel *)flowView {
+- (NSInteger)numberOfPagesInCarousel:(RPPagesCarousel *)carousel {
     if ([self.dataSource respondsToSelector:@selector(numberOfItemsInRingedPages:)]) {
         return [self.dataSource numberOfItemsInRingedPages:self];
     }
     return 0;
 }
-- (UIView *)flowView:(RPPagesCarousel *)flowView pageForItemAtIndex:(NSInteger)index {
+- (UIView *)carousel:(RPPagesCarousel *)carousel pageForItemAtIndex:(NSInteger)index {
     if ([self.dataSource respondsToSelector:@selector(ringedPages:viewForItemAtIndex:)]) {
         return [self.dataSource ringedPages:self viewForItemAtIndex:index];
     }
     return nil;
 }
-- (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(RPPagesCarousel *)flowView {
-    if(self.pageControl.currentPage != pageNumber) {
-        self.pageControl.currentPage = pageNumber;
+- (void)didScrollToIndex:(NSInteger)index inCarousel:(RPPagesCarousel *)carousel; {
+    if(self.pageControl.currentIndex != index) {
+        self.pageControl.currentIndex = index;
     }    
 }
-- (void)didSelectCurrentPageInFlowView:(RPPagesCarousel *)flowView {
+- (void)didSelectCurrentPageInCarousel:(RPPagesCarousel *)carousel {
     if ([self.delegate respondsToSelector:@selector(didSelectCurrentPageInPages:)]) {
         [self.delegate didSelectCurrentPageInPages:self];
     }
@@ -157,8 +157,8 @@
 }
 
 - (void)pageControTapped:(RPPageControl *)pageControl {
-    NSInteger page = pageControl.currentPage;
-    [self.carousel scrollToPage:page];
+    NSInteger page = pageControl.currentIndex;
+    [self.carousel scrollToIndex:page];
 }
 
 

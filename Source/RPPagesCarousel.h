@@ -20,9 +20,9 @@
 @property (nonatomic,assign)   id <RPPagesCarouselDataSource> dataSource;
 @property (nonatomic,assign)   id <RPPagesCarouselDelegate>   delegate;
 
-@property (nonatomic, assign, readonly) NSInteger currentPageIndex;
+@property (nonatomic, assign, readonly) NSInteger currentIndex;
 - (void)reloadData;
-- (void)scrollToPage:(NSUInteger)pageNumber;
+- (void)scrollToIndex:(NSUInteger)pageIndex;
 
 @end
 
@@ -30,15 +30,15 @@
 
 @optional
 
-- (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(RPPagesCarousel *)flowView;
-- (void)didSelectCurrentPageInFlowView:(RPPagesCarousel *)flowView;
+- (void)didScrollToIndex:(NSInteger)index inCarousel:(RPPagesCarousel *)carousel;
+- (void)didSelectCurrentPageInCarousel:(RPPagesCarousel *)carousel;
 
 @end
 
 
 @protocol RPPagesCarouselDataSource <NSObject>
 
-- (NSInteger)numberOfPagesInFlowView:(RPPagesCarousel *)flowView;
-- (UIView *)flowView:(RPPagesCarousel *)flowView pageForItemAtIndex:(NSInteger)index;
+- (NSInteger)numberOfPagesInCarousel:(RPPagesCarousel *)carousel;
+- (UIView *)carousel:(RPPagesCarousel *)carousel pageForItemAtIndex:(NSInteger)index;
 
 @end

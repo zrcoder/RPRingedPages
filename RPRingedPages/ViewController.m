@@ -71,7 +71,7 @@
     return label;
 }
 - (void)didSelectCurrentPageInPages:(RPRingedPages *)pages {
-    NSLog(@"pages selected, the current index is %zd", pages.currentPageIndex);
+    NSLog(@"pages selected, the current index is %zd", pages.currentIndex);
 }
 
 - (IBAction)changeMainPageSize:(UISegmentedControl *)sender {

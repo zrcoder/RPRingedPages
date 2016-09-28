@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @property (nonatomic, weak) id<RPRingedPagesDelegate> delegate;
 
 /// Main API
-@property (nonatomic, assign) NSInteger currentPageIndex;
+@property (nonatomic, assign) NSInteger currentIndex;
 - (void)reloadData;
 
 @end

@@ -10,7 +10,7 @@
 
 @interface RPPagesCarousel ()<UIScrollViewDelegate>
 
-@property (nonatomic, assign, readwrite) NSInteger currentPageIndex;
+@property (nonatomic, assign, readwrite) NSInteger currentIndex;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic,assign) NSInteger pageCount;
 @property (nonatomic,strong) NSMutableArray *pages;
@@ -19,7 +19,7 @@
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property (nonatomic, assign) NSInteger orginPageCount;
 @property (nonatomic, weak) NSTimer *timer;
-@property (nonatomic, assign) NSInteger pageForTimer;
+@property (nonatomic, assign) NSInteger indexForTimer;
 @property (nonatomic,assign) BOOL needsReload;
 
 @end
@@ -49,9 +49,9 @@
     
     if (_needsReload) {
         self.orginPageCount = 0;
-        if (_dataSource && [_dataSource respondsToSelector:@selector(numberOfPagesInFlowView:)]) {
-            self.orginPageCount = [_dataSource numberOfPagesInFlowView:self];
-            _pageCount = self.orginPageCount == 1 ? 1: [_dataSource numberOfPagesInFlowView:self] * 3;
+        if (_dataSource && [_dataSource respondsToSelector:@selector(numberOfPagesInCarousel:)]) {
+            self.orginPageCount = [_dataSource numberOfPagesInCarousel:self];
+            _pageCount = self.orginPageCount == 1 ? 1: [_dataSource numberOfPagesInCarousel:self] * 3;
         }
         
         [_reusablePages removeAllObjects];
@@ -68,7 +68,7 @@
         
         if (self.orginPageCount > 1) {
             [_scrollView setContentOffset:CGPointMake(_mainPageSize.width * self.orginPageCount, 0) animated:NO];
-            self.pageForTimer = self.orginPageCount;
+            self.indexForTimer = self.orginPageCount;
             [self p_addTimer];
         }
         
@@ -92,11 +92,11 @@
     [self setNeedsLayout];
 }
 
-- (void)scrollToPage:(NSUInteger)pageNumber {
-    if (pageNumber < _pageCount) {
+- (void)scrollToIndex:(NSUInteger)pageIndex {
+    if (pageIndex < _pageCount) {
         [self p_removeTimer];
-        self.pageForTimer = pageNumber + self.orginPageCount;
-        [_scrollView setContentOffset:CGPointMake(_mainPageSize.width * (pageNumber + self.orginPageCount), 0) animated:YES];
+        self.indexForTimer = pageIndex + self.orginPageCount;
+        [_scrollView setContentOffset:CGPointMake(_mainPageSize.width * (pageIndex + self.orginPageCount), 0) animated:YES];
         [self p_setPagesAtContentOffset:_scrollView.contentOffset];
         [self p_refreshVisiblePageAppearance];
         [self p_addTimer];
@@ -109,7 +109,7 @@
     self.needsReload = YES;
     self.mainPageSize = self.bounds.size;
     self.pageCount = 0;
-    _currentPageIndex = 0;
+    _currentIndex = 0;
     
     _pageScale = 1.0;
     _autoScrollInterval = 5.0;
@@ -145,8 +145,8 @@
 }
 
 - (void)p_autoScrollToNextPage {
-    self.pageForTimer ++;
-    [_scrollView setContentOffset:CGPointMake(self.pageForTimer * _mainPageSize.width, 0) animated:YES];
+    self.indexForTimer ++;
+    [_scrollView setContentOffset:CGPointMake(self.indexForTimer * _mainPageSize.width, 0) animated:YES];
 }
 
 - (void)p_queueReusablePage:(UIView *)page {
@@ -199,7 +199,7 @@
     UIView *page = [_pages objectAtIndex:pageIndex];
     
     if ((NSObject *)page == [NSNull null]) {
-        page = [_dataSource flowView:self pageForItemAtIndex:pageIndex % self.orginPageCount];
+        page = [_dataSource carousel:self pageForItemAtIndex:pageIndex % self.orginPageCount];
         NSAssert(page!=nil, @"datasource must not return nil");
         [_pages replaceObjectAtIndex:pageIndex withObject:page];
         
@@ -256,9 +256,9 @@
     }
     return page;
 }
-- (void)p_pageTapAction:(UIGestureRecognizer *)gesture {
-    if ([self.delegate respondsToSelector:@selector(didSelectCurrentPageInFlowView:)]) {
-        [self.delegate didSelectCurrentPageInFlowView:self];
+- (void)p_pagesTappedAction:(UIGestureRecognizer *)gesture {
+    if ([self.delegate respondsToSelector:@selector(didSelectCurrentPageInCarousel:)]) {
+        [self.delegate didSelectCurrentPageInCarousel:self];
     }
 }
 
@@ -275,12 +275,12 @@
     if (self.orginPageCount > 1) {
         if (scrollView.contentOffset.x / _mainPageSize.width >= 2 * self.orginPageCount) {
             [scrollView setContentOffset:CGPointMake(_mainPageSize.width * self.orginPageCount, 0) animated:NO];
-            self.pageForTimer = self.orginPageCount;
+            self.indexForTimer = self.orginPageCount;
         }
         
         if (scrollView.contentOffset.x / _mainPageSize.width <= self.orginPageCount - 1) {
             [scrollView setContentOffset:CGPointMake((2 * self.orginPageCount - 1) * _mainPageSize.width, 0) animated:NO];
-            self.pageForTimer = 2 * self.orginPageCount;
+            self.indexForTimer = 2 * self.orginPageCount;
         }
     } else {
         pageIndex = 0;
@@ -289,10 +289,10 @@
     [self p_setPagesAtContentOffset:scrollView.contentOffset];
     [self p_refreshVisiblePageAppearance];
     
-    if ([_delegate respondsToSelector:@selector(didScrollToPage:inFlowView:)] && _currentPageIndex != pageIndex) {
-        [_delegate didScrollToPage:pageIndex inFlowView:self];
+    if ([_delegate respondsToSelector:@selector(didScrollToIndex:inCarousel:)] && _currentIndex != pageIndex) {
+        [_delegate didScrollToIndex:pageIndex inCarousel:self];
     }
-    _currentPageIndex = pageIndex;
+    _currentIndex = pageIndex;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -303,10 +303,10 @@
     
     if (self.orginPageCount > 1 && self.autoScrollInterval > 0) {
         [self p_addTimer];
-        if (self.pageForTimer == floor(_scrollView.contentOffset.x / _mainPageSize.width)) {
-            self.pageForTimer = floor(_scrollView.contentOffset.x / _mainPageSize.width) + 1;
+        if (self.indexForTimer == floor(_scrollView.contentOffset.x / _mainPageSize.width)) {
+            self.indexForTimer = floor(_scrollView.contentOffset.x / _mainPageSize.width) + 1;
         } else {
-            self.pageForTimer = floor(_scrollView.contentOffset.x / _mainPageSize.width);
+            self.indexForTimer = floor(_scrollView.contentOffset.x / _mainPageSize.width);
         }
     }
 }
@@ -315,7 +315,7 @@
 
 - (UITapGestureRecognizer *)tapGestureRecognizer {
     if (_tapGestureRecognizer == nil) {
-        _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(p_pageTapAction:)];
+        _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(p_pagesTappedAction:)];
     }
     return _tapGestureRecognizer;
 }
