@@ -32,7 +32,7 @@
 @optional
 
 - (void)didScrollToIndex:(NSInteger)index inCarousel:(RPPagesCarousel *)carousel;
-- (void)didSelectCurrentPageInCarousel:(RPPagesCarousel *)carousel;
+- (void)didSelectedCurrentPageInCarousel:(RPPagesCarousel *)carousel;
 
 @end
 

@@ -16,13 +16,10 @@
 
 - (void)p_setDefaults {
     self.showPageControl = YES;
-    self.carousel.autoScrollInterval = 3;
     self.pageControlPosition = RPPageControlPositonBellowBody;
     self.pageControlHeight = 15;
     self.pageControlMarginTop = 5;
     self.pageControlMarginBottom = 5;
-    self.pageControl.alignment = RPPageControlAlignmentCenter;
-    self.pageControl.indicatorMargin = 3;
 }
 
 - (instancetype)initWithFrame:(CGRect )frame {
@@ -71,11 +68,11 @@
     CGRect carouselFrame;
     CGRect pageControlFrame;
     CGSize size = self.frame.size;
-    CGFloat PageControlSpaceHeight = self.pageControlMarginBottom + self.pageControlMarginTop + self.pageControlHeight;
+    CGFloat pageControlSpaceHeight = self.pageControlMarginBottom + self.pageControlMarginTop + self.pageControlHeight;
     switch (self.pageControlPosition) {
         case RPPageControlPositonAboveBody:
             pageControlFrame = CGRectMake(0, self.pageControlMarginTop, size.width, self.pageControlHeight);
-            carouselFrame = CGRectMake(0, PageControlSpaceHeight, size.width, size.height - PageControlSpaceHeight);
+            carouselFrame = CGRectMake(0, pageControlSpaceHeight, size.width, size.height - pageControlSpaceHeight);
             break;
         case RPPageControlPositonInBodyTop:
             pageControlFrame = CGRectMake(0, self.self.pageControlMarginTop, size.width, self.pageControlHeight);
@@ -87,7 +84,7 @@
             break;
         default:
             pageControlFrame = CGRectMake(0, size.height - self.pageControlHeight - self.pageControlMarginBottom, size.width, self.pageControlHeight);
-            carouselFrame = CGRectMake(0, 0, size.width, size.height - PageControlSpaceHeight);
+            carouselFrame = CGRectMake(0, 0, size.width, size.height - pageControlSpaceHeight);
             break;
     }
     self.carousel.frame = carouselFrame;
@@ -131,9 +128,9 @@
         self.pageControl.currentIndex = index;
     }    
 }
-- (void)didSelectCurrentPageInCarousel:(RPPagesCarousel *)carousel {
-    if ([self.delegate respondsToSelector:@selector(didSelectCurrentPageInPages:)]) {
-        [self.delegate didSelectCurrentPageInPages:self];
+- (void)didSelectedCurrentPageInCarousel:(RPPagesCarousel *)carousel {
+    if ([self.delegate respondsToSelector:@selector(didSelectedCurrentPageInPages:)]) {
+        [self.delegate didSelectedCurrentPageInPages:self];
     }
 }
 
@@ -150,15 +147,15 @@
     if (_pageControl == nil) {
         _pageControl = [RPPageControl new];
         _pageControl.hidden = !self.showPageControl;
-//        _pageControl.userInteractionEnabled = NO;
-        [_pageControl addTarget:self action:@selector(pageControTapped:) forControlEvents:UIControlEventValueChanged];
+        [_pageControl addTarget:self action:@selector(p_pageControTapped:) forControlEvents:UIControlEventValueChanged];
     }
     return _pageControl;
 }
 
-- (void)pageControTapped:(RPPageControl *)pageControl {
-    NSInteger page = pageControl.currentIndex;
-    [self.carousel scrollToIndex:page];
+#pragma mark - helpers
+- (void)p_pageControTapped:(RPPageControl *)pageControl {
+    NSInteger index = pageControl.currentIndex;
+    [self.carousel scrollToIndex:index];
 }
 
 - (UIView *)dequeueReusablePage {

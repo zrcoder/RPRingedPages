@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @property (nonatomic, assign) CGFloat pageControlMarginTop;
 @property (nonatomic, assign) CGFloat pageControlMarginBottom;
 @property (nonatomic, assign) CGFloat pageControlHeight;
-/// carousel - main view
+/// Carousel - main view
 @property (nonatomic, strong) RPPagesCarousel *carousel;
 
 /// Data source and delegate
@@ -52,6 +52,6 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @protocol RPRingedPagesDelegate <NSObject>
 
 @optional
-- (void)didSelectCurrentPageInPages:(RPRingedPages *)pages ;
+- (void)didSelectedCurrentPageInPages:(RPRingedPages *)pages ;
 
 @end

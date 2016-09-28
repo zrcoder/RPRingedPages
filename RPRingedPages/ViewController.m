@@ -73,7 +73,7 @@
     label.text = self.dataSource[index];
     return label;
 }
-- (void)didSelectCurrentPageInPages:(RPRingedPages *)pages {
+- (void)didSelectedCurrentPageInPages:(RPRingedPages *)pages {
     NSLog(@"pages selected, the current index is %zd", pages.currentIndex);
 }
 

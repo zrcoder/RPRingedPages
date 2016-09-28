@@ -259,8 +259,8 @@
 }
 
 - (void)p_pagesTappedAction:(UIGestureRecognizer *)gesture {
-    if ([self.delegate respondsToSelector:@selector(didSelectCurrentPageInCarousel:)]) {
-        [self.delegate didSelectCurrentPageInCarousel:self];
+    if ([self.delegate respondsToSelector:@selector(didSelectedCurrentPageInCarousel:)]) {
+        [self.delegate didSelectedCurrentPageInCarousel:self];
     }
 }
 
