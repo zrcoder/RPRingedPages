@@ -1,6 +1,8 @@
 # RPRingedPages
 Pages in a ring!<br>
+---
 You can set auto scroll time, and custom the pageControl appearance.<br>
+
 
 ![img](https://github.com/DingHub/ScreenShots/blob/master/RPRingedPages/0.png)
 ![img](https://github.com/DingHub/ScreenShots/blob/master/RPRingedPages/1.png)
@@ -78,3 +80,5 @@ If in a UIViewController
     NSLog(@"pages selected, the current index is %zd", pages.currentPageIndex);
 }
 ```
+
+You can find a Swift version here: [RingedPages](https://github.com/DingHub/RingedPages)
