@@ -39,15 +39,6 @@
     [self p_layoutPageControlAndCarousel];
     [self.carousel reloadData];
 }
-- (void)scrollToPageIndex:(NSUInteger)index {
-    [self.carousel scrollToIndex:index];
-}
-- (NSInteger)currentIndex {
-    return self.carousel.currentIndex;
-}
-- (void)setCurrentIndex:(NSInteger)index {
-    [self scrollToPageIndex:index];
-}
 
 - (void)p_layoutPageControlAndCarousel {
     [self layoutIfNeeded];
@@ -58,8 +49,7 @@
     if (![self.dataSource respondsToSelector:@selector(numberOfItemsInRingedPages:)]) {
         return;
     }
-    NSInteger number = [self.dataSource numberOfItemsInRingedPages:self];
-    
+    NSInteger number = [self.dataSource numberOfItemsInRingedPages:self];    
     if (number < 1) {
         return;
     }
@@ -91,7 +81,9 @@
     self.pageControl.frame = pageControlFrame;
     [self addSubview:self.carousel];
     [self addSubview:self.pageControl];
+    self.pageControl.hidden = NO;
     if (!self.showPageControl) {
+        self.pageControl.hidden = YES;
         self.carousel.frame = CGRectMake(0, 0, size.width, size.height);
     }
     
@@ -103,14 +95,7 @@
     }
 }
 
-- (void)p_scrollToNext {
-    NSInteger index = self.carousel.currentIndex + 1;
-    if (index == [self.dataSource numberOfItemsInRingedPages:self] ) {
-        index = 0;
-    }
-    [self.carousel scrollToIndex:index];
-}
-
+#pragma mark: RPPagesCarousel datasource and delegate
 - (NSInteger)numberOfPagesInCarousel:(RPPagesCarousel *)carousel {
     if ([self.dataSource respondsToSelector:@selector(numberOfItemsInRingedPages:)]) {
         return [self.dataSource numberOfItemsInRingedPages:self];
@@ -146,10 +131,16 @@
 - (RPPageControl *)pageControl {
     if (_pageControl == nil) {
         _pageControl = [RPPageControl new];
-        _pageControl.hidden = !self.showPageControl;
         [_pageControl addTarget:self action:@selector(p_pageControTapped:) forControlEvents:UIControlEventValueChanged];
     }
     return _pageControl;
+}
+
+- (NSInteger)currentIndex {
+    return self.carousel.currentIndex;
+}
+- (void)setCurrentIndex:(NSInteger)index {
+    [self scrollToPageIndex:index];
 }
 
 #pragma mark - helpers
@@ -162,5 +153,8 @@
     return [self.carousel dequeueReusablePage];
 }
 
+- (void)scrollToPageIndex:(NSUInteger)index {
+    [self.carousel scrollToIndex:index];
+}
 
 @end
