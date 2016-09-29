@@ -117,13 +117,7 @@
     self.reusablePages = [NSMutableArray array];
     self.pages = [NSMutableArray array];
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-    self.scrollView.scrollsToTop = NO;
-    self.scrollView.delegate = self;
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.clipsToBounds = NO;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;    
+    
     UIView *containner = [[UIView alloc] initWithFrame:self.bounds];
     containner.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [containner addSubview:self.scrollView];
@@ -308,7 +302,18 @@
 }
 
 #pragma mark - getters
-
+- (UIScrollView *)scrollView {
+    if (_scrollView == nil) {
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        _scrollView.scrollsToTop = NO;
+        _scrollView.delegate = self;
+        _scrollView.pagingEnabled = YES;
+        _scrollView.clipsToBounds = NO;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+    }
+    return _scrollView;
+}
 - (UITapGestureRecognizer *)tapGestureRecognizer {
     if (_tapGestureRecognizer == nil) {
         _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(p_pagesTappedAction:)];

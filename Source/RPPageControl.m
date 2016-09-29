@@ -40,8 +40,6 @@ static const CGFloat defaultMinHeight = 36.0f;
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     self.contentMode = UIViewContentModeRedraw;
     
-    self.systemPageControl = [[UIPageControl alloc] init];
-    self.systemPageControl.userInteractionEnabled = NO;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -103,8 +101,8 @@ static const CGFloat defaultMinHeight = 36.0f;
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (!_currentPageIndicatorImage && !_pageIndicatorImage) {
-        self.systemPageControl.frame = self.bounds ;
         [self addSubview:self.systemPageControl];
+        self.systemPageControl.frame = self.bounds ;
         self.systemPageControl.pageIndicatorTintColor = self.indicatorTintColor;
         self.systemPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
     } else {
@@ -159,12 +157,6 @@ static const CGFloat defaultMinHeight = 36.0f;
 }
 
 #pragma mark -
-
-- (void)p_updateMeasuredIndicatorSizeWithSize:(CGSize)size {
-    _measuredIndicatorWidth = MAX(_measuredIndicatorWidth, size.width);
-    _measuredIndicatorHeight = MAX(_measuredIndicatorHeight, size.height);
-}
-
 - (void)p_updateMeasuredIndicatorSizes {
     _measuredIndicatorWidth = _indicatorDiameter;
     _measuredIndicatorHeight = _indicatorDiameter;
@@ -185,6 +177,10 @@ static const CGFloat defaultMinHeight = 36.0f;
     if ([self respondsToSelector:@selector(invalidateIntrinsicContentSize)]) {
         [self invalidateIntrinsicContentSize];
     }
+}
+- (void)p_updateMeasuredIndicatorSizeWithSize:(CGSize)size {
+    _measuredIndicatorWidth = MAX(_measuredIndicatorWidth, size.width);
+    _measuredIndicatorHeight = MAX(_measuredIndicatorHeight, size.height);
 }
 
 
@@ -296,11 +292,18 @@ static const CGFloat defaultMinHeight = 36.0f;
 }
 
 
-#pragma mark - UIAccessibility
-- (void)updateAccessibilityValue {
-    NSString *accessibilityValue = self.systemPageControl.accessibilityValue;
-    self.accessibilityValue = accessibilityValue;
+- (UIPageControl *)systemPageControl {
+    if (_systemPageControl == nil) {
+        _systemPageControl = [UIPageControl new];
+        _systemPageControl.userInteractionEnabled = NO;
+    }
+    return _systemPageControl;
 }
 
+
+#pragma mark - UIAccessibility
+- (void)updateAccessibilityValue {
+    self.accessibilityValue = self.systemPageControl.accessibilityValue;
+}
 @end
 
