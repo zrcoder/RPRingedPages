@@ -36,9 +36,10 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @property (nonatomic, weak) id<RPRingedPagesDelegate> delegate;
 
 /// Main API
-@property (nonatomic, assign) NSInteger currentIndex;
+@property (nonatomic, assign, readonly) NSInteger currentIndex;
 - (void)reloadData;
 - (UIView *)dequeueReusablePage;
+- (void)scrollToIndex:(NSUInteger)index;
 
 @end
 
@@ -52,6 +53,7 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @protocol RPRingedPagesDelegate <NSObject>
 
 @optional
-- (void)didSelectedCurrentPageInPages:(RPRingedPages *)pages ;
+- (void)didSelectedCurrentPageInPages:(RPRingedPages *)pages;
+- (void)didScrollToIndex:(NSInteger)index inPages:(RPRingedPages *)pages;
 
 @end

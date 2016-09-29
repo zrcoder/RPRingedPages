@@ -22,12 +22,14 @@
     if (_pages == nil) {
         CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
         CGRect pagesFrame = CGRectMake(0, 100, screenWidth, screenWidth * 0.4);
+        
         RPRingedPages *pages = [[RPRingedPages alloc] initWithFrame:pagesFrame];
         CGFloat height = pagesFrame.size.height - pages.pageControlHeight - pages.pageControlMarginTop - pages.pageControlMarginBottom;
         pages.carousel.mainPageSize = CGSizeMake(height * 0.8, height);
         pages.carousel.pageScale = 0.6;
         pages.dataSource = self;
         pages.delegate = self;
+        
         _pages = pages;
     }
     return _pages;
@@ -47,7 +49,7 @@
 }
 
 - (void)makeDataSource {
-    for (int i=0; i<7; i++) {
+    for (int i=0; i<3; i++) {
         NSString *s = [NSString stringWithFormat:@"%c", i + 'A'];
         [self.dataSource addObject:s];
     }
@@ -75,6 +77,9 @@
 }
 - (void)didSelectedCurrentPageInPages:(RPRingedPages *)pages {
     NSLog(@"pages selected, the current index is %zd", pages.currentIndex);
+}
+- (void)didScrollToIndex:(NSInteger)index inPages:(RPRingedPages *)pages {
+    NSLog(@"pages scrolled to index: %zd", index);
 }
 
 - (IBAction)changeMainPageSize:(UISegmentedControl *)sender {

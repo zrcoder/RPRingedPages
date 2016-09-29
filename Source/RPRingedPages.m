@@ -105,9 +105,10 @@
     return nil;
 }
 - (void)didScrollToIndex:(NSInteger)index inCarousel:(RPPagesCarousel *)carousel; {
-    if(self.pageControl.currentIndex != index) {
-        self.pageControl.currentIndex = index;
-    }    
+    self.pageControl.currentIndex = index;
+    if ([self.delegate respondsToSelector:@selector(didScrollToIndex:inPages:)]) {
+        [self.delegate didScrollToIndex:index inPages:self];
+    }
 }
 - (void)didSelectedCurrentPageInCarousel:(RPPagesCarousel *)carousel {
     if ([self.delegate respondsToSelector:@selector(didSelectedCurrentPageInPages:)]) {
@@ -135,9 +136,6 @@
 - (NSInteger)currentIndex {
     return self.carousel.currentIndex;
 }
-- (void)setCurrentIndex:(NSInteger)index {
-    [self scrollToPageIndex:index];
-}
 
 #pragma mark - helpers
 - (void)p_pageControTapped:(RPPageControl *)pageControl {
@@ -149,7 +147,7 @@
     return [self.carousel dequeueReusablePage];
 }
 
-- (void)scrollToPageIndex:(NSUInteger)index {
+- (void)scrollToIndex:(NSUInteger)index {
     [self.carousel scrollToIndex:index];
 }
 

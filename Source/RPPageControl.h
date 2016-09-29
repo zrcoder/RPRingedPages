@@ -27,13 +27,13 @@ typedef NS_ENUM(NSUInteger, RPPageControlVerticalAlignment) {
 
 @interface RPPageControl : UIControl
 
-@property (nonatomic) NSInteger numberOfPages;
-@property (nonatomic) NSInteger currentIndex;
-@property (nonatomic) CGFloat indicatorMargin;
-@property (nonatomic) CGFloat indicatorDiameter;
-@property (nonatomic) CGFloat minHeight;                                    // default is 36, cannot be less than indicatorDiameter
-@property (nonatomic) RPPageControlAlignment alignment;                     // deafult is Center
-@property (nonatomic) RPPageControlVerticalAlignment verticalAlignment;     // deafult is Middle
+@property (nonatomic, assign) NSInteger numberOfPages;
+@property (nonatomic, assign) NSInteger currentIndex;
+@property (nonatomic, assign) CGFloat indicatorMargin;
+@property (nonatomic, assign) CGFloat indicatorDiameter;
+@property (nonatomic, assign) CGFloat minHeight;                                    // default is 36, cannot be less than indicatorDiameter
+@property (nonatomic, assign) RPPageControlAlignment alignment;                     // deafult is Center
+@property (nonatomic, assign) RPPageControlVerticalAlignment verticalAlignment;     // deafult is Middle
 
 @property (nonatomic, strong) UIImage *pageIndicatorImage;
 @property (nonatomic, strong) UIImage *currentPageIndicatorImage;
