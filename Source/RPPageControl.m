@@ -25,7 +25,6 @@ static const CGFloat defaultMinHeight = 36.0f;
 
 - (void)p_initialize {
     _numberOfPages = 0;
-    self.backgroundColor = [UIColor clearColor];
 
     self.indicatorDiameter = defaultIndicatorWidth;
     self.indicatorMargin = defaultIndicatorMargin;
@@ -36,13 +35,13 @@ static const CGFloat defaultMinHeight = 36.0f;
     _indicatorTintColor = [UIColor lightGrayColor];
     _currentIndicatorTintColor = [UIColor blueColor];
     
+    self.backgroundColor = [UIColor clearColor];
     self.isAccessibilityElement = YES;
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
-    self.systemPageControl = [[UIPageControl alloc] init];
-    self.systemPageControl.pageIndicatorTintColor = self.indicatorTintColor;
-    self.systemPageControl.currentPageIndicatorTintColor = self.currentIndicatorTintColor;
-    self.systemPageControl.userInteractionEnabled = NO;
     self.contentMode = UIViewContentModeRedraw;
+    
+    self.systemPageControl = [[UIPageControl alloc] init];
+    self.systemPageControl.userInteractionEnabled = NO;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -236,7 +235,7 @@ static const CGFloat defaultMinHeight = 36.0f;
         return;
     }
     if (minHeight < _indicatorDiameter) {
-        minHeight = _indicatorDiameter;
+        _indicatorDiameter = minHeight;
     }
     _minHeight = minHeight;
     if ([self respondsToSelector:@selector(invalidateIntrinsicContentSize)]) {

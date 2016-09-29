@@ -106,18 +106,16 @@
 #pragma mark - private methods
 
 - (void)p_setUp {
-    self.needsReload = YES;
-    self.mainPageSize = self.bounds.size;
-    self.pageCount = 0;
-    _currentIndex = 0;
-    
+    self.mainPageSize = CGSizeZero;
     _pageScale = 1.0;
     _autoScrollInterval = 5.0;
     
+    self.needsReload = YES;
+    self.pageCount = 0;
+    _currentIndex = 0;
     self.visibleRange = NSMakeRange(0, 0);
-    
-    self.reusablePages = [[NSMutableArray alloc] initWithCapacity:0];
-    self.pages = [[NSMutableArray alloc] initWithCapacity:0];
+    self.reusablePages = [NSMutableArray array];
+    self.pages = [NSMutableArray array];
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
     self.scrollView.scrollsToTop = NO;
@@ -125,8 +123,7 @@
     self.scrollView.pagingEnabled = YES;
     self.scrollView.clipsToBounds = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    
+    self.scrollView.showsVerticalScrollIndicator = NO;    
     UIView *containner = [[UIView alloc] initWithFrame:self.bounds];
     containner.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [containner addSubview:self.scrollView];
@@ -177,26 +174,22 @@
 
 - (void)p_refreshVisiblePageAppearance {
     
-    if (_pageScale == 1.0) {
+    if (_pageScale >= 1.0 || _pageScale < 0.0) {
         return;
     }
     CGFloat offset = _scrollView.contentOffset.x;
     
     for (NSInteger i = self.visibleRange.location; i < self.visibleRange.location + _visibleRange.length; i++) {
-        UIView *page = [_pages objectAtIndex:i];
-        CGFloat origin = page.frame.origin.x;
-        CGFloat delta = fabs(origin - offset);
+        UIView *page = _pages[i];
+        CGFloat originX = page.frame.origin.x;
+        CGFloat delta = fabs(originX - offset);
         
         CGRect originPageFrame = CGRectMake(_mainPageSize.width * i, 0, _mainPageSize.width, _mainPageSize.height);
-        
+        CGFloat inset = _mainPageSize.width * (1 - _pageScale) * 0.5;
         if (delta < _mainPageSize.width) {
-            CGFloat inset = (_mainPageSize.width * (1 - _pageScale)) * (delta / _mainPageSize.width)/2.0;
-            page.frame = UIEdgeInsetsInsetRect(originPageFrame, UIEdgeInsetsMake(inset, inset, inset, inset));
-            
-        } else {
-            CGFloat inset = _mainPageSize.width * (1 - _pageScale) / 2.0 ;
-            page.frame = UIEdgeInsetsInsetRect(originPageFrame, UIEdgeInsetsMake(inset, inset, inset, inset));
+            inset *= (delta / _mainPageSize.width);
         }
+        page.frame = UIEdgeInsetsInsetRect(originPageFrame, UIEdgeInsetsMake(inset, inset, inset, inset));
     }
 }
 

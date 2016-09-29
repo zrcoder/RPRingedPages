@@ -10,6 +10,9 @@
 
 @interface RPRingedPages () <RPPagesCarouselDelegate, RPPagesCarouselDataSource>
 
+@property (nonatomic, strong, readwrite) RPPageControl *pageControl;
+@property (nonatomic, strong, readwrite) RPPagesCarousel *carousel;
+
 @end
 
 @implementation RPRingedPages
@@ -54,7 +57,7 @@
         return;
     }
     self.pageControl.numberOfPages = number;
-    
+    self.pageControl.currentIndex = 0;
     CGRect carouselFrame;
     CGRect pageControlFrame;
     CGSize size = self.frame.size;
@@ -85,13 +88,6 @@
     if (!self.showPageControl) {
         self.pageControl.hidden = YES;
         self.carousel.frame = CGRectMake(0, 0, size.width, size.height);
-    }
-    
-    self.pageControl.numberOfPages = 0;
-    if ([self.dataSource respondsToSelector:@selector(numberOfItemsInRingedPages:)]) {
-        NSInteger number = [self.dataSource numberOfItemsInRingedPages:self];
-        self.pageControl.numberOfPages = number;
-        self.pageControl.currentIndex = 0;
     }
 }
 

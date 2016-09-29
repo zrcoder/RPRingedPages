@@ -23,8 +23,8 @@
         CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
         CGRect pagesFrame = CGRectMake(0, 100, screenWidth, screenWidth * 0.4);
         RPRingedPages *pages = [[RPRingedPages alloc] initWithFrame:pagesFrame];
-        pages.pageControlMarginTop = 25;
-        pages.carousel.mainPageSize = CGSizeMake(pagesFrame.size.height * 0.8, pagesFrame.size.height);
+        CGFloat height = pagesFrame.size.height - pages.pageControlHeight - pages.pageControlMarginTop - pages.pageControlMarginBottom;
+        pages.carousel.mainPageSize = CGSizeMake(height * 0.8, height);
         pages.carousel.pageScale = 0.6;
         pages.dataSource = self;
         pages.delegate = self;
@@ -86,8 +86,7 @@
             self.pages.carousel.mainPageSize = CGSizeMake(100, 100);
             break;
         default: {
-            CGFloat pagesHeight = self.pages.frame.size.height;
-            self.pages.carousel.mainPageSize = CGSizeMake(pagesHeight * 0.8, pagesHeight);
+            self.pages.carousel.mainPageSize = self.originMainPageSize;
             break;
         }
     }
@@ -107,6 +106,12 @@
             break;
     }
     [self.pages reloadData];
+}
+
+- (CGSize)originMainPageSize {
+    CGFloat height = [UIScreen mainScreen].bounds.size.width * 0.4;
+    height -= (self.pages.pageControlHeight + self.pages.pageControlMarginTop + self.pages.pageControlMarginBottom);
+    return CGSizeMake(height * 0.8, height);
 }
 
 @end

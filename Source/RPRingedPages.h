@@ -22,14 +22,14 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 @interface RPRingedPages : UIView
 
 /// PageControl
-@property (nonatomic, strong) RPPageControl *pageControl;
 @property (nonatomic, assign) BOOL showPageControl;
 @property (nonatomic, assign) RPPageControlPositon pageControlPosition;
 @property (nonatomic, assign) CGFloat pageControlMarginTop;
 @property (nonatomic, assign) CGFloat pageControlMarginBottom;
 @property (nonatomic, assign) CGFloat pageControlHeight;
+@property (nonatomic, strong, readonly) RPPageControl *pageControl;
 /// Carousel - main view
-@property (nonatomic, strong) RPPagesCarousel *carousel;
+@property (nonatomic, strong, readonly) RPPagesCarousel *carousel;
 
 /// Data source and delegate
 @property (nonatomic, weak) id<RPRingedPagesDataSource> dataSource;
