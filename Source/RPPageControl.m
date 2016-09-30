@@ -26,7 +26,7 @@ static const CGFloat defaultMinHeight = 36.0f;
 - (void)p_initialize {
     _numberOfPages = 0;
 
-    self.indicatorDiameter = defaultIndicatorWidth;
+    _indicatorDiameter = defaultIndicatorWidth;
     self.indicatorMargin = defaultIndicatorMargin;
     self.minHeight = defaultMinHeight;
     
@@ -87,10 +87,20 @@ static const CGFloat defaultMinHeight = 36.0f;
             [image drawAtPoint:CGPointMake(centeredXOffset, yOffset)];
             indicatorRect = CGRectMake(centeredXOffset, yOffset, image.size.width, image.size.height);
         } else {
+            
+            /** dont't work, why? In the Swift version (https://github.com/DingHub/RingedPages), works */
+            /** so I have to add systemPageControl. See line 111 - 121*/
+            /*
             yOffset = [self p_topOffsetForHeight:_indicatorDiameter rect:rect];
             CGFloat centeredXOffset = xOffset + floorf((_measuredIndicatorWidth - _indicatorDiameter) * 0.5);
             indicatorRect = CGRectMake(centeredXOffset, yOffset, _indicatorDiameter, _indicatorDiameter);
+            if (i == _displayedPage) {
+                CGContextSetFillColor(context, CGColorGetComponents(_currentIndicatorTintColor.CGColor));
+            } else {
+                CGContextSetFillColor(context, CGColorGetComponents(_indicatorTintColor.CGColor));
+            }
             CGContextFillEllipseInRect(context, indicatorRect);
+             */
         }
         xOffset += _measuredIndicatorWidth + _indicatorMargin;
     }
