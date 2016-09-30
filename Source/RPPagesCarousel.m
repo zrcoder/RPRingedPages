@@ -16,7 +16,6 @@
 @property (nonatomic,strong) NSMutableArray *pages;
 @property (nonatomic,assign) NSRange visibleRange;
 @property (nonatomic,strong) NSMutableArray *reusablePages;
-@property (nonatomic,strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property (nonatomic, assign) NSInteger orginPageCount;
 @property (nonatomic, weak) NSTimer *timer;
 @property (nonatomic, assign) NSInteger indexForTimer;
@@ -117,12 +116,12 @@
     self.reusablePages = [NSMutableArray array];
     self.pages = [NSMutableArray array];
     
-    
     UIView *containner = [[UIView alloc] initWithFrame:self.bounds];
     containner.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [containner addSubview:self.scrollView];
     [self addSubview:containner];
-    [self addGestureRecognizer:self.tapGestureRecognizer];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(p_pagesTappedAction:)];
+    [self addGestureRecognizer: tapGestureRecognizer];
 }
 - (void)p_addTimer {
     if (self.orginPageCount > 1 && self.autoScrollInterval > 0) {
@@ -246,8 +245,10 @@
 }
 
 - (void)p_pagesTappedAction:(UIGestureRecognizer *)gesture {
-    if ([self.delegate respondsToSelector:@selector(didSelectedCurrentPageInCarousel:)]) {
-        [self.delegate didSelectedCurrentPageInCarousel:self];
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        if ([self.delegate respondsToSelector:@selector(didSelectedCurrentPageInCarousel:)]) {
+            [self.delegate didSelectedCurrentPageInCarousel:self];
+        }
     }
 }
 
@@ -304,7 +305,7 @@
 #pragma mark - getters
 - (UIScrollView *)scrollView {
     if (_scrollView == nil) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        _scrollView = [UIScrollView new];
         _scrollView.scrollsToTop = NO;
         _scrollView.delegate = self;
         _scrollView.pagingEnabled = YES;
@@ -313,12 +314,6 @@
         _scrollView.showsVerticalScrollIndicator = NO;
     }
     return _scrollView;
-}
-- (UITapGestureRecognizer *)tapGestureRecognizer {
-    if (_tapGestureRecognizer == nil) {
-        _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(p_pagesTappedAction:)];
-    }
-    return _tapGestureRecognizer;
 }
 
 #pragma mark - dealloc
