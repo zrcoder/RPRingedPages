@@ -82,6 +82,10 @@ If in a UIViewController
 - (void)didSelectCurrentPageInPages:(RPRingedPages *)pages {
     NSLog(@"pages selected, the current index is %zd", pages.currentPageIndex);
 }
+
+- (void)pages:(RPRingedPages *)pages didScrollToIndex:(NSInteger)index {
+    NSLog(@"pages scrolled to index: %zd", index);
+}
 ```
 
 You can find a Swift version here: [RingedPages](https://github.com/DingHub/RingedPages)
