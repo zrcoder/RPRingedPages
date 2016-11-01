@@ -104,10 +104,10 @@
     }
     return nil;
 }
-- (void)didScrollToIndex:(NSInteger)index inCarousel:(RPPagesCarousel *)carousel; {
+- (void)carousel:(RPPagesCarousel *)carousel didScrollToPageAtIndex:(NSInteger)index {
     self.pageControl.currentIndex = index;
-    if ([self.delegate respondsToSelector:@selector(didScrollToIndex:inPages:)]) {
-        [self.delegate didScrollToIndex:index inPages:self];
+    if ([self.delegate respondsToSelector:@selector(pages:didScrollToIndex:)]) {
+        [self.delegate pages:self didScrollToIndex:index];
     }
 }
 - (void)didSelectedCurrentPageInCarousel:(RPPagesCarousel *)carousel {

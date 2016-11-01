@@ -279,8 +279,8 @@
     [self p_setPagesAtContentOffset:scrollView.contentOffset];
     [self p_refreshVisiblePageAppearance];
     
-    if ([_delegate respondsToSelector:@selector(didScrollToIndex:inCarousel:)] && _currentIndex != pageIndex) {
-        [_delegate didScrollToIndex:pageIndex inCarousel:self];
+    if ([_delegate respondsToSelector:@selector(carousel:didScrollToPageAtIndex:)] && _currentIndex != pageIndex) {
+        [_delegate carousel:self didScrollToPageAtIndex:pageIndex];
     }
     _currentIndex = pageIndex;
 }

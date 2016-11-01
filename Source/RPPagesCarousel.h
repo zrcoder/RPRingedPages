@@ -8,8 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol RPPagesCarouselDataSource;
-@protocol RPPagesCarouselDelegate;
+@class RPPagesCarousel;
+
+@protocol RPPagesCarouselDataSource <NSObject>
+
+- (NSInteger)numberOfPagesInCarousel:(RPPagesCarousel *)carousel;
+- (UICollectionViewCell *)carousel:(RPPagesCarousel *)carousel pageForItemAtIndex:(NSInteger)index;
+
+@end
+
+@protocol  RPPagesCarouselDelegate<NSObject>
+
+@optional
+- (void)carousel:(RPPagesCarousel *)carousel didScrollToPageAtIndex:(NSInteger)index;
+- (void)didSelectedCurrentPageInCarousel:(RPPagesCarousel *)carousel;
+
+@end
 
 @interface RPPagesCarousel : UIView
 
@@ -24,22 +38,5 @@
 - (void)reloadData;
 - (void)scrollToIndex:(NSUInteger)pageIndex;
 - (UIView *)dequeueReusablePage;
-
-@end
-
-@protocol  RPPagesCarouselDelegate<NSObject>
-
-@optional
-
-- (void)didScrollToIndex:(NSInteger)index inCarousel:(RPPagesCarousel *)carousel;
-- (void)didSelectedCurrentPageInCarousel:(RPPagesCarousel *)carousel;
-
-@end
-
-
-@protocol RPPagesCarouselDataSource <NSObject>
-
-- (NSInteger)numberOfPagesInCarousel:(RPPagesCarousel *)carousel;
-- (UIView *)carousel:(RPPagesCarousel *)carousel pageForItemAtIndex:(NSInteger)index;
 
 @end

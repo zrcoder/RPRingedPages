@@ -78,7 +78,7 @@
 - (void)didSelectedCurrentPageInPages:(RPRingedPages *)pages {
     NSLog(@"pages selected, the current index is %zd", pages.currentIndex);
 }
-- (void)didScrollToIndex:(NSInteger)index inPages:(RPRingedPages *)pages {
+- (void)pages:(RPRingedPages *)pages didScrollToIndex:(NSInteger)index {
     NSLog(@"pages scrolled to index: %zd", index);
 }
 

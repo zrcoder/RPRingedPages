@@ -54,6 +54,5 @@ typedef NS_ENUM(NSUInteger, RPPageControlPositon) {
 
 @optional
 - (void)didSelectedCurrentPageInPages:(RPRingedPages *)pages;
-- (void)didScrollToIndex:(NSInteger)index inPages:(RPRingedPages *)pages;
-
+- (void)pages:(RPRingedPages *)pages didScrollToIndex:(NSInteger)index;
 @end
