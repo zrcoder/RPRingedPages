@@ -27,16 +27,35 @@
 
 @interface RPPagesCarousel : UIView
 
+/**
+ The size of the center main page. Infact, if you don't set, will be the size of whole PagesCarousel.
+ */
 @property (nonatomic,assign) CGSize mainPageSize;
+
+/**
+ When the center page is moved to left or right, it's size will change, so we use pageScale for this.
+ */
 @property (nonatomic, assign) CGFloat pageScale;
-@property (nonatomic, assign) NSTimeInterval autoScrollInterval; //if <= 0, will not scroll automatically.
+
+/**
+ if <= 0, will not scroll automatically.
+ */
+@property (nonatomic, assign) NSTimeInterval autoScrollInterval;
 
 @property (nonatomic,assign)   id <RPPagesCarouselDataSource> dataSource;
 @property (nonatomic,assign)   id <RPPagesCarouselDelegate>   delegate;
 
 @property (nonatomic, assign, readonly) NSInteger currentIndex;
+
 - (void)reloadData;
 - (void)scrollToIndex:(NSUInteger)pageIndex;
+
+/**
+ To get the reusing views.
+ Normally, pages are the same type views, so we can use an array to stroy reusingViews, not dictionary or chache
+ 
+ @return A view as page for reusing.
+ */
 - (UIView *)dequeueReusablePage;
 
 @end
