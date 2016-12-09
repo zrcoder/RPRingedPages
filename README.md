@@ -1,7 +1,7 @@
 # RPRingedPages
 Pages in a ring!<br>
 ---
-In fact, there are 2 main class: RPPagesCarousel and RPPageControl, you can use them independently.<br>
+In fact, there are 2 main classes: RPPagesCarousel and RPPageControl, you can use them independently.<br>
 RinedPages is a warapper of the above 2.
 
 ![img](https://github.com/DingHub/ScreenShots/blob/master/RPRingedPages/0.png)
