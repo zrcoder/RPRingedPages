@@ -12,7 +12,7 @@ RinedPages is a warapper of the above 2.
 Usage:
 ---
 If in a UIViewController
-```
+```objective-c
 @interface ViewController () <RPRingedPagesDelegate, RPRingedPagesDataSource>
 
 @property (nonatomic, strong) RPRingedPages *pages;
@@ -21,7 +21,7 @@ If in a UIViewController
 @end
         
 ```
-```
+```objective-c
 - (RPRingedPages *)pages {
     if (_pages == nil) {
         CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
@@ -58,7 +58,7 @@ If in a UIViewController
 }
 
 ```
-```
+```objective-c
 - (NSInteger)numberOfItemsInRingedPages:(RPRingedPages *)pages {
     return self.dataSource.count;
 }
